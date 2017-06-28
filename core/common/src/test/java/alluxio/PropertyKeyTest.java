@@ -14,13 +14,19 @@ package alluxio;
 import alluxio.exception.ExceptionMessage;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * Tests enum type {@link PropertyKey}.
  */
 public final class PropertyKeyTest {
-
+  static PropertyKey DEBUG_ALIAS;
+  @BeforeClass
+  public static void initialize() {
+    DEBUG_ALIAS = PropertyKey.create(PropertyKey.Name.DEBUG, false,
+            new String[] {"alluxio.debug.alias1", "alluxio.debug.alias2"});
+  }
   /**
    * Tests parsing string to PropertyKey by {@link PropertyKey#fromString}.
    */
@@ -28,6 +34,8 @@ public final class PropertyKeyTest {
   public void fromString() throws Exception {
     Assert
         .assertEquals(PropertyKey.VERSION, PropertyKey.fromString(PropertyKey.VERSION.toString()));
+    Assert.assertEquals(PropertyKey.DEBUG, PropertyKey.fromString("alluxio.debug.alias1"));
+    Assert.assertEquals(PropertyKey.DEBUG, PropertyKey.fromString(DEBUG_ALIAS.toString()));
   }
 
   @Test
@@ -52,6 +60,11 @@ public final class PropertyKeyTest {
     Assert.assertFalse(PropertyKey.isValid("foo"));
     Assert.assertFalse(PropertyKey.isValid(PropertyKey.HOME.toString() + "1"));
     Assert.assertFalse(PropertyKey.isValid(PropertyKey.HOME.toString().toUpperCase()));
+  }
+
+  @Test
+  public void aliasIsValid() throws Exception {
+    Assert.assertTrue(PropertyKey.isValid(DEBUG_ALIAS.toString()));
   }
 
   @Test
