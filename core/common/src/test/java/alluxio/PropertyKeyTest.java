@@ -18,18 +18,19 @@ import static org.junit.Assert.assertFalse;
 import alluxio.exception.ExceptionMessage;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Tests enum type {@link PropertyKey}.
  */
 public final class PropertyKeyTest {
-  static PropertyKey DEBUG_ALIAS;
-  @BeforeClass
-  public static void initialize() {
-    DEBUG_ALIAS = PropertyKey.create(PropertyKey.Name.DEBUG, false,
-            new String[] {"alluxio.debug.alias1", "alluxio.debug.alias2"});
+  private PropertyKey mTestProperty;
+
+  @Before
+  public void initialize() {
+    mTestProperty = mTestProperty = PropertyKey.create("alluxio.test.property", false,
+            new String[] {"alluxio.test.property.alias1", "alluxio.test.property.alias2"});
   }
   /**
    * Tests parsing string to PropertyKey by {@link PropertyKey#fromString}.
@@ -38,7 +39,7 @@ public final class PropertyKeyTest {
   public void fromString() throws Exception {
     assertEquals(PropertyKey.VERSION, PropertyKey.fromString(PropertyKey.VERSION.toString()));
     assertEquals(PropertyKey.DEBUG, PropertyKey.fromString("alluxio.debug.alias1"));
-    assertEquals(PropertyKey.DEBUG, PropertyKey.fromString(DEBUG_ALIAS.toString()));
+    assertEquals(mTestProperty, PropertyKey.fromString(mTestProperty.toString()));
   }
 
   @Test
@@ -67,7 +68,7 @@ public final class PropertyKeyTest {
 
   @Test
   public void aliasIsValid() throws Exception {
-    Assert.assertTrue(PropertyKey.isValid(DEBUG_ALIAS.toString()));
+    Assert.assertTrue(PropertyKey.isValid(mTestProperty.toString()));
   }
 
   @Test
