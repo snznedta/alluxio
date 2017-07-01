@@ -26,11 +26,13 @@ import org.junit.Test;
  */
 public final class PropertyKeyTest {
   private PropertyKey mTestProperty;
+  private PropertyKey mNullAliasTestProperty;
 
   @Before
   public void initialize() {
-    mTestProperty = mTestProperty = PropertyKey.create("alluxio.test.property", false,
+    mTestProperty = PropertyKey.create("alluxio.test.property", false,
             new String[] {"alluxio.test.property.alias1", "alluxio.test.property.alias2"});
+    mNullAliasTestProperty = PropertyKey.create("alluxio.test.property.nullAlias", false, null);
   }
   /**
    * Tests parsing string to PropertyKey by {@link PropertyKey#fromString}.
@@ -38,8 +40,10 @@ public final class PropertyKeyTest {
   @Test
   public void fromString() throws Exception {
     assertEquals(PropertyKey.VERSION, PropertyKey.fromString(PropertyKey.VERSION.toString()));
-    assertEquals(PropertyKey.DEBUG, PropertyKey.fromString("alluxio.debug.alias1"));
+    assertEquals(mTestProperty, PropertyKey.fromString("alluxio.test.property.alias1"));
+    assertEquals(mTestProperty, PropertyKey.fromString("alluxio.test.property.alias2"));
     assertEquals(mTestProperty, PropertyKey.fromString(mTestProperty.toString()));
+    assertEquals(mNullAliasTestProperty, PropertyKey.fromString(mNullAliasTestProperty.toString()));
   }
 
   @Test
@@ -68,7 +72,7 @@ public final class PropertyKeyTest {
 
   @Test
   public void aliasIsValid() throws Exception {
-    Assert.assertTrue(PropertyKey.isValid(mTestProperty.toString()));
+    assertTrue(PropertyKey.isValid(mTestProperty.toString()));
   }
 
   @Test
