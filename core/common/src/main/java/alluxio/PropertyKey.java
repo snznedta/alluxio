@@ -1308,7 +1308,12 @@ public class PropertyKey {
   }
 
   /**
+<<<<<<< HEAD
    * Factory method to create a constant default property and assign a default value together with its alias.
+=======
+   * Factory method to create a constant default property
+   * and assign a default value together with its alias.
+>>>>>>> 6a544703cd242daf87c99fea2ea658762970c2f1
    *
    * @param name String of this property
    * @param defaultValue Default value of this property in compile time if not null

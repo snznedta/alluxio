@@ -25,25 +25,20 @@ import org.junit.Test;
  * Tests enum type {@link PropertyKey}.
  */
 public final class PropertyKeyTest {
-  private PropertyKey mTestProperty;
-  private PropertyKey mNullAliasTestProperty;
 
-  @Before
-  public void initialize() {
-    mTestProperty = PropertyKey.create("alluxio.test.property", false,
-            new String[] {"alluxio.test.property.alias1", "alluxio.test.property.alias2"});
-    mNullAliasTestProperty = PropertyKey.create("alluxio.test.property.nullAlias", false, null);
-  }
+  private PropertyKey mTestProperty = PropertyKey.create("alluxio.test.property", false,
+       new String[] {"alluxio.test.property.alias1", "alluxio.test.property.alias2"});
+
   /**
    * Tests parsing string to PropertyKey by {@link PropertyKey#fromString}.
    */
   @Test
   public void fromString() throws Exception {
     assertEquals(PropertyKey.VERSION, PropertyKey.fromString(PropertyKey.VERSION.toString()));
+    PropertyKey.fromString(PropertyKey.VERSION.toString());
     assertEquals(mTestProperty, PropertyKey.fromString("alluxio.test.property.alias1"));
     assertEquals(mTestProperty, PropertyKey.fromString("alluxio.test.property.alias2"));
     assertEquals(mTestProperty, PropertyKey.fromString(mTestProperty.toString()));
-    assertEquals(mNullAliasTestProperty, PropertyKey.fromString(mNullAliasTestProperty.toString()));
   }
 
   @Test
@@ -73,6 +68,8 @@ public final class PropertyKeyTest {
   @Test
   public void aliasIsValid() throws Exception {
     assertTrue(PropertyKey.isValid(mTestProperty.toString()));
+    assertTrue(PropertyKey.isValid("alluxio.test.property.alias1"));
+    assertTrue(PropertyKey.isValid("alluxio.test.property.alias2"));
   }
 
   @Test
