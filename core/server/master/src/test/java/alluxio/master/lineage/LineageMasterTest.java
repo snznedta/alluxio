@@ -152,8 +152,8 @@ public final class LineageMasterTest {
 
   /**
    * Tests that an exception is thrown when trying to delete a lineage with children via the
-   * {@link DefaultLineageMaster#deleteLineage(long, boolean)} without setting the {@code cascade} flag to
-   * {@code true}.
+   * {@link LineageMaster#deleteLineage(long, boolean)} without setting the {@code cascade}
+   * flag to {@code true}.
    */
   @Test
   public void deleteLineageWithChildren() throws Exception {
