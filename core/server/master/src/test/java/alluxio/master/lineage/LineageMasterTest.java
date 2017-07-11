@@ -48,11 +48,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * Unit tests for {@link LineageMaster}.
+ * Unit tests for {@link DefaultLineageMaster}.
  */
 public final class LineageMasterTest {
   private ExecutorService mExecutorService;
-  private LineageMaster mLineageMaster;
+  private DefaultLineageMaster mLineageMaster;
   private FileSystemMaster mFileSystemMaster;
   private Job mJob;
   private MasterRegistry mRegistry;
@@ -73,9 +73,9 @@ public final class LineageMasterTest {
     mRegistry.add(FileSystemMaster.class, mFileSystemMaster);
     ThreadFactory threadPool = ThreadFactoryUtils.build("LineageMasterTest-%d", true);
     mExecutorService = Executors.newFixedThreadPool(2, threadPool);
-    mLineageMaster = new LineageMaster(mFileSystemMaster, factory,
+    mLineageMaster = new DefaultLineageMaster(mFileSystemMaster, factory,
         ExecutorServiceFactories.constantExecutorServiceFactory(mExecutorService));
-    mRegistry.add(LineageMaster.class, mLineageMaster);
+    mRegistry.add(DefaultLineageMaster.class, mLineageMaster);
     mJob = new CommandLineJob("test", new JobConf("output"));
   }
 
@@ -85,7 +85,7 @@ public final class LineageMasterTest {
   }
 
   /**
-   * Tests the {@link LineageMaster#getLineageInfoList()} method.
+   * Tests the {@link DefaultLineageMaster#getLineageInfoList()} method.
    */
   @Test
   public void listLineages() throws Exception {
@@ -101,7 +101,7 @@ public final class LineageMasterTest {
 
   /**
    * Tests that an exception is thrown when trying to create a lineage for a non-existing file via
-   * the {@link LineageMaster#createLineage(List, List, Job)} method.
+   * the {@link DefaultLineageMaster#createLineage(List, List, Job)} method.
    */
   @Test
   public void createLineageWithNonExistingFile() throws Exception {
@@ -120,7 +120,7 @@ public final class LineageMasterTest {
   }
 
   /**
-   * Tests the {@link LineageMaster#deleteLineage(long, boolean)} method.
+   * Tests the {@link DefaultLineageMaster#deleteLineage(long, boolean)} method.
    */
   @Test
   public void deleteLineage() throws Exception {
@@ -136,7 +136,7 @@ public final class LineageMasterTest {
 
   /**
    * Tests that an exception is thrown when trying to delete a non-existing lineage via the
-   * {@link LineageMaster#deleteLineage(long, boolean)} method.
+   * {@link DefaultLineageMaster#deleteLineage(long, boolean)} method.
    */
   @Test
   public void deleteNonexistingLineage() throws Exception {
@@ -152,7 +152,7 @@ public final class LineageMasterTest {
 
   /**
    * Tests that an exception is thrown when trying to delete a lineage with children via the
-   * {@link LineageMaster#deleteLineage(long, boolean)} without setting the {@code cascade} flag to
+   * {@link DefaultLineageMaster#deleteLineage(long, boolean)} without setting the {@code cascade} flag to
    * {@code true}.
    */
   @Test
@@ -172,7 +172,7 @@ public final class LineageMasterTest {
   }
 
   /**
-   * Tests the {@link LineageMaster#reinitializeFile(String, long, long, TtlAction)} method.
+   * Tests the {@link DefaultLineageMaster#reinitializeFile(String, long, long, TtlAction)} method.
    */
   @Test
   public void reinitializeFile() throws Exception {
